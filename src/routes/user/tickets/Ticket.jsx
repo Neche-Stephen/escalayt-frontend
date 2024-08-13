@@ -16,10 +16,14 @@ import { fetchFilteredTickets } from '../../../utils/dashboard-methods/dashboard
 
 // import url from .env file
 const base = import.meta.env.VITE_APP_API_URL;
+const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export default function Ticket() {
 
     const token = localStorage.getItem("token");
+
+    const [assignees, setAssignees] = useState([]);
+  const [categories, setCategories] = useState([]);
 
 
     // State values for profile dropdown
@@ -83,7 +87,40 @@ export default function Ticket() {
     console.log(tickets);
   }, [sort, tickets]);
 
+  useEffect(() => {
+    fetchAssignees();
+    fetchCategories();
+  }, []);
 
+  const fetchAssignees = async () => {
+    try {
+      const response = await axios.get(`${base}/api/v1/ticket/fetch-assignees`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAssignees(response.data);
+      console.log('Assignees:', response.data);
+    } catch (error) {
+      console.error('Error fetching assignees:', error.response ? error.response.data : error.message);
+      toast.error('Error fetching assignees');
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${base}/api/v1/ticket/categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCategories(response.data);
+      console.log('Categories:', response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error.response ? error.response.data : error.message);
+      toast.error('Error fetching categories');
+    }
+  };
 
   const sortTickets = (tickets) => {
     const priorityOrder = ['HIGH', 'MEDIUM', 'LOW'];
@@ -229,69 +266,36 @@ export default function Ticket() {
                         </div>
 
                         {/* Assignee */}
-                        <div className={`${styles.filter_component}`}>
-                          <div className={`${styles.filter_component_title}`}>Assignee</div>
-                          {/* Replace with dynamic assignees */}
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="assigneeId"
-                              value="1"
-                              onChange={handleFilterChange}
-                            />
-                            Abdul Ahmed
-                          </label>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="assigneeId"
-                              value="2"
-                              onChange={handleFilterChange}
-                            />
-                            Tayo Ade
-                          </label>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="assigneeId"
-                              value="3"
-                              onChange={handleFilterChange}
-                            />
-                            Chizzy Jack
-                          </label>
-                        </div>
+                <div className={`${styles.filter_component}`}>
+                  <div className={`${styles.filter_component_title}`}>Assignee</div>
+                  {assignees.map((assignee) => (
+                    <label key={assignee.id}>
+                      <input
+                        type="checkbox"
+                        name="assigneeId"
+                        value={assignee.id}
+                        onChange={handleFilterChange}
+                      />
+                      {assignee.fullName}
+                    </label>
+                  ))}
+                </div>
 
-                        {/* Category */}
-                        <div className={`${styles.filter_component}`}>
-                          <div className={`${styles.filter_component_title}`}>Category</div>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="categoryId"
-                              value="1"
-                              onChange={handleFilterChange}
-                            />
-                            Plumbing
-                          </label>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="categoryId"
-                              value="2"
-                              onChange={handleFilterChange}
-                            />
-                            Electrical
-                          </label>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="categoryId"
-                              value="3"
-                              onChange={handleFilterChange}
-                            />
-                            HVAC
-                          </label>
-                        </div>
+                  {/* Category */}
+                <div className={`${styles.filter_component}`}>
+                  <div className={`${styles.filter_component_title}`}>Category</div>
+                  {categories.map((category) => (
+                    <label key={category.id}>
+                      <input
+                        type="checkbox"
+                        name="categoryId"
+                        value={category.id}
+                        onChange={handleFilterChange}
+                      />
+                      {category.name}
+                    </label>
+                  ))}
+                </div>
               </div>
 
                 <div className="pl-8 w-10/12">
@@ -308,7 +312,7 @@ export default function Ticket() {
                         </div>
           
                         <div className="h-[auto] ">
-                        <TicketTable activities={sortedTickets} setActivities = {setTickets} setPage = {setPage} page={page}/>
+                        <TicketTable activities={sortedTickets} setActivities = {setTickets} setPage = {setPage} page={page} preview_link="/user/tickets"/>
                   
                         
                         </div>

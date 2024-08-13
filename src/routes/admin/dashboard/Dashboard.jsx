@@ -434,6 +434,7 @@ export default function Dashboard() {
           setActivities={setActivities}
           setPage={setPage}
           page={page}
+          preview_link="/admin/tickets"
 
           // Fetch Tickets
           fetchTickets={fetchTickets}

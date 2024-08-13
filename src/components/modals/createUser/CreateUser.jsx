@@ -104,7 +104,7 @@ const option = {
         // set confirm to true
         setIsAfterFirstSubmit(true);
         console.log("User created successfully");
-        toast.success("User created successfully");
+        // toast.success("User created successfully");
       } else {
         // Extract error message from the response
         const errorData = await response.json();

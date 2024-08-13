@@ -56,7 +56,7 @@ export default function Signup() {
  
       if (response.ok) {
         setIsSignupSucessful(true);
-        alert("Registration successful!");
+        // alert("Registration successful!");
         // navigate("/login");
       } else {
         // const errorText = await response.json();

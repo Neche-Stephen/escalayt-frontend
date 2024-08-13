@@ -216,6 +216,7 @@ export default function Dashboard() {
         setActivities={setActivities}
         setPage={setPage}
         page={page}
+        preview_link="/user/tickets"
       />
 
   

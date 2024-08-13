@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import IMAGES from "../../../assets"
 
-import Navbar from "../../../components/dashboard/navbar/Navbar";
+import UserNavbar from "../../../components/dashboard/user-navbar/UserNavbar";
 import TicketDetails from "../../../components/dashboard/ticketDetails/TicketDetails";
 import { Comment } from '../../../components/dashboard/comment/Comment';
 
@@ -17,6 +17,23 @@ const base = import.meta.env.VITE_APP_API_URL;
 
 export default function TicketPreview() {
   const token = localStorage.getItem("token");
+
+
+  // State values for profile dropdown
+  const [profileDropdown, setProfileDropdown] = useState(false);
+
+  // General Modal State
+  const [openModal, setOpenModal] = useState(null);
+
+  // General Modal Open Handler
+  const openModalHandler = (modalName) => {
+    setOpenModal(modalName);
+  };
+
+    // General Modal Close Handler
+  const closeModalHandler = () => {
+    setOpenModal(null);
+  };
 
 
   const { id } = useParams();
@@ -76,13 +93,17 @@ export default function TicketPreview() {
 
   return (
     <div className="w-11/12 mx-auto ">
-      <Navbar />
+     <UserNavbar 
+                  onOpen={openModalHandler}
+                  setProfileDropdown={setProfileDropdown}
+                  profileDropdown={profileDropdown}
+                />
 
       {/* Title and resolution */}
       <div className="flex flex-wrap justify-between mt-5 mb-8">
 
         <div className="flex flex-wrap">
-          <div><Link to="/admin/dashboard"><img src={IMAGES.BACK_ARROW} alt="" /></Link></div>
+          <div><Link to="/user/dashboard"><img src={IMAGES.BACK_ARROW} alt="" /></Link></div>
           <div>Ticket: #{ticket.id} - {ticket.title}</div>
         </div>
 

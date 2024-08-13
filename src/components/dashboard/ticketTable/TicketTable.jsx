@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import styles from './TicketTable.module.css';
 import updown from '../../../assets/images/updown.png';
 import thcell from '../../../assets/images/Checkbox.svg';
-import redellipse from '../../../assets/images/redellipse.png';
-import orangeellipse from '../../../assets/images/orangellipse.png';
 import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +14,7 @@ import IMAGES from "../../../assets/index";
  // import url from .env file
  const apiUrl = import.meta.env.VITE_APP_API_URL;
 
-const TicketTable = ({ activities, setPage, page ,
+const TicketTable = ({ activities, setPage, page , preview_link,
 
   fetchTickets,
   setActivities, 
@@ -34,8 +32,12 @@ const TicketTable = ({ activities, setPage, page ,
   setOngoingTicketCount
 }) => {
 
+
+
  // Token from local storage
   const token = localStorage.getItem("token");
+
+
   const fetchDatas = async () => {
     await fetchTicketCount(
       token,
@@ -85,6 +87,8 @@ const TicketTable = ({ activities, setPage, page ,
     });
     // console.log(selectedTickets);
   };
+
+
 
 
 
@@ -266,7 +270,7 @@ const TicketTable = ({ activities, setPage, page ,
                 {openDropdownId === ticket.id && (
                   <div className={`${styles.dropdown} shadow-md absolute right-4 bg-white h-36 w-[110px] z-10`}>
                     {selectedTickets.length <= 1 ? (
-                      <Link className='block mb-1  hover:bg-gray-100 p-3 pl-4' to={`/admin/tickets/${ticket.id}`}>View</Link>
+                      <Link className='block mb-1  hover:bg-gray-100 p-3 pl-4' to={`${preview_link}/${ticket.id}`}>View</Link>
                     ) : (
                       <div className='mb-1 hover:bg-gray-100 p-3  pl-4' style={{ color: 'gray', cursor: 'not-allowed' }}>View</div>
                     )}
