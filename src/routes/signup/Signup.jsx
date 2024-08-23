@@ -58,6 +58,7 @@ export default function Signup() {
         setIsSignupSucessful(true);
         // alert("Registration successful!");
         // navigate("/login");
+        console.log(response)
       } else {
         // const errorText = await response.json();
         // alert(`Registration failed: ${errorText}`);

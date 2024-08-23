@@ -45,6 +45,8 @@ const apiUrl = import.meta.env.VITE_APP_API_URL;
 const adminUrl = `${apiUrl}/api/v1/admin/get-admin-details`;
 
 export default function Dashboard() {
+
+
   // Token from local storage
   const token = localStorage.getItem("token");
 
@@ -315,11 +317,6 @@ export default function Dashboard() {
           profileDropdown={profileDropdown}
         />
         
-
-
-
-
-
 
         {/* {isModalOpen1 && !isEditAdmin && (
           <AdminProfileEdit onClose={handleOpenModal1} />

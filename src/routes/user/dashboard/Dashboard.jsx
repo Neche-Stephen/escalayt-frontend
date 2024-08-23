@@ -105,9 +105,9 @@ export default function Dashboard() {
       };
      
       // Ensure userId is defined before calling requestPermission
-      if (userDetails.userId) {
-        requestPermission(userDetails.userId);
-      }
+      // if (userDetails.userId) {
+      //   requestPermission(userDetails.userId);
+      // }
   
       
     }, [data]);
@@ -189,11 +189,12 @@ export default function Dashboard() {
 
       {/* {isModalOpen1 && <ProfileModal onClose={handleOpenModal1} />} */}
 
-      <ProfileModal 
+      {/* <ProfileModal 
           onOpen={openModalHandler}
           onClose={closeModalHandler}
 
           />
+    */} 
 
       {/* Sort and Add user row */}
       <UserNavbar 
