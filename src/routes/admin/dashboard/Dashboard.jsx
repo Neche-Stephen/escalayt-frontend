@@ -24,7 +24,7 @@ import {
 
 import { formatDate, newFormatDate } from "../../../utils/formatDate";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 
@@ -44,8 +44,25 @@ import { BeatLoader, BounceLoader } from "react-spinners";
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 const adminUrl = `${apiUrl}/api/v1/admin/get-admin-details`;
 
+import Sidebar from "../../../components/sidebar/Sidebar";
+
 export default function Dashboard() {
 
+  // Offcanvas
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+
+  const sidebarRef = useRef(null);
+  const sidebarBlur = useRef(null);
+
+  const handleOpenOffcanvas = () => { 
+    sidebarRef.current.style.display = "block";
+    sidebarBlur.current.style.display = "block";
+   };
+  const handleCloseOffcanvas = () => { 
+    sidebarRef.current.style.display = "none";
+    sidebarBlur.current.style.display = "none";
+   }
+  
 
   // Token from local storage
   const token = localStorage.getItem("token");
@@ -305,9 +322,11 @@ export default function Dashboard() {
     // toast(<Message notification={payload.notification} />);
   });
 
+  
+
   return (
     <>
-      <div className="pt-5 pb-32 w-11/12 mx-auto">
+      <div className="">
         {/* Navbar */}
 
         <Navbar
@@ -315,10 +334,17 @@ export default function Dashboard() {
           onClose={closeModalHandler}
           setProfileDropdown={setProfileDropdown}
           profileDropdown={profileDropdown}
+          handleOpenOffcanvas={handleOpenOffcanvas}
         />
-        
 
-        {/* {isModalOpen1 && !isEditAdmin && (
+        {/* body */}
+
+        <div className="border flex flex-wrap">
+          
+            <Sidebar sidebarBlur={sidebarBlur} sidebarRef={sidebarRef} handleCloseOffcanvas={handleCloseOffcanvas} isOffcanvasOpen={isOffcanvasOpen}/>
+
+          <main className="border w-10/12">
+             {/* {isModalOpen1 && !isEditAdmin && (
           <AdminProfileEdit onClose={handleOpenModal1} />
         )}
 
@@ -518,6 +544,12 @@ export default function Dashboard() {
 
 
         {/* Profile Dropdown */}
+       
+          </main>
+
+        </div>
+        
+
        
       </div>
     </>
